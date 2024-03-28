@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{e4428034-b902-4a4a-5abc-d49db9cff562}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardSamples", "CardboardSamples.csproj", "{dcf6e340-2498-0bfe-49dc-c5065dd8996f}"
 EndProject
 Global
@@ -8,6 +10,8 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{e4428034-b902-4a4a-5abc-d49db9cff562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{e4428034-b902-4a4a-5abc-d49db9cff562}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{dcf6e340-2498-0bfe-49dc-c5065dd8996f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{dcf6e340-2498-0bfe-49dc-c5065dd8996f}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
