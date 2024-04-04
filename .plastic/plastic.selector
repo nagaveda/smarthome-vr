@@ -1,4 +1,0 @@
-repository "smarthome-vr@vedagamer1@cloud"
-  path "/"
-    br "/main"
-    co "/main"
