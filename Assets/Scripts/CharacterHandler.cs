@@ -15,6 +15,7 @@ public class CharacterHandler : MonoBehaviour
     GameObject doorMenu;
 
     bool toggleDoorMenu = false;
+    bool doorTrigger = false;
 
 
     // Start is called before the first frame update
@@ -29,16 +30,25 @@ public class CharacterHandler : MonoBehaviour
         performRaycast();
 
         if(isHighlighted && (currentHit != null && currentHit.name.Contains("int-door"))){
+            DoorsHandler.selectedDoor = currentHit;
             toggleDoorMenu = true;
         }
 
         if(toggleDoorMenu){
             doorMenu.SetActive(true);
             if(currentHit!=null){
-                
-                doorMenu.transform.position = new Vector3(currentHit.transform.position.x+0.5f, currentHit.transform.position.y + 1f, currentHit.transform.position.z+1f);
+                // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
+                doorMenu.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
                 doorMenu.transform.LookAt(gameObject.transform);
-                
+            }
+            if (Input.GetButton("js10") && !doorTrigger)
+            {
+                doorTrigger = true;
+                DoorsHandler.openCloseDoor();
+            }
+            else if (!Input.GetButton("js10") && doorTrigger)
+            {
+                doorTrigger = false;
             }
         }
         else{

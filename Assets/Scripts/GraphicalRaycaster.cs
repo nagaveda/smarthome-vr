@@ -11,10 +11,11 @@ public class GraphicalRaycaster : MonoBehaviour
     EventSystem m_EventSystem;
     GameObject CharacterObj;
 
-    Button button;
+    Button doorBtn;
     // Start is called before the first frame update
     void Start()
     {
+        CharacterObj = GameObject.Find("Character");
          //Fetch the Raycaster from the GameObject (the Canvas)
         m_Raycaster = GetComponent<GraphicRaycaster>();
         //Fetch the Event System from the Scene
@@ -44,28 +45,31 @@ public class GraphicalRaycaster : MonoBehaviour
             {
                 GameObject hitObject = result.gameObject;
                 
-                if(CharacterObj != null){
-                    LineRenderer lr = CharacterObj.GetComponent<LineRenderer>();
-                    if(lr != null){
-                        lr.SetPosition(1, hitObject.transform.position);
-                    }
-                }
-                button = hitObject.GetComponentInParent<Button>();
-                if(button != null){
-                    button.OnPointerEnter(null);
-                    Debug.Log("Hit " + button.name);
-
+                if(hitObject != null && hitObject.name == "door-btn"){
+                    doorBtn = hitObject.GetComponent<Button>();
+                    Debug.Log("Hit " + doorBtn);
+                    doorBtn.OnPointerEnter(null);
                     if(Input.GetButton("js10")){
-                        
-                        button.onClick.Invoke();
+                        doorBtn.onClick.Invoke();
                     }
-                }   
+                    if(CharacterObj != null){
+                        LineRenderer lr = CharacterObj.GetComponent<LineRenderer>();
+                        if(lr != null){
+                            lr.SetPosition(1, hitObject.transform.position);
+                        }
+                    }
+
+                }
+
+                  
+                
+                
             }
         }
         else{
-            if(button != null){
-                button.OnPointerExit(null);
-                button = null;
+            if(doorBtn != null){
+                doorBtn.OnPointerExit(null);
+                doorBtn = null;
             }
         }
     }
