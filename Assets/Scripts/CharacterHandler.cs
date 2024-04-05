@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CharacterHandler : MonoBehaviour
 {
     [SerializeField] Transform rayCastSource;
@@ -11,17 +12,38 @@ public class CharacterHandler : MonoBehaviour
     public LineRenderer lineRenderer;
     bool isHighlighted = false;
 
+    GameObject doorMenu;
+
+    bool toggleDoorMenu = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        doorMenu = GameObject.Find("door-menu");   
     }
 
     // Update is called once per frame
     void Update()
     {
         performRaycast();
+
+        if(isHighlighted && (currentHit != null && currentHit.name.Contains("int-door"))){
+            toggleDoorMenu = true;
+        }
+
+        if(toggleDoorMenu){
+            doorMenu.SetActive(true);
+            if(currentHit!=null){
+                
+                doorMenu.transform.position = new Vector3(currentHit.transform.position.x+0.5f, currentHit.transform.position.y + 1f, currentHit.transform.position.z+1f);
+                doorMenu.transform.LookAt(gameObject.transform);
+                
+            }
+        }
+        else{
+            doorMenu.SetActive(false);
+        }
     }
 
     public void performRaycast(){
@@ -35,7 +57,7 @@ public class CharacterHandler : MonoBehaviour
             lineRenderer.SetPosition(1, hit.point);
             hitObject = hit.collider.gameObject;
             
-            if(!hitObject.name.Contains("Floor")){
+            if(hitObject.name.Contains("int-")){
                 enableOutline(hitObject);
                 currentHit = hitObject;
             }
@@ -89,6 +111,9 @@ public class CharacterHandler : MonoBehaviour
                 outLineComponent.enabled = false;
             }
             isHighlighted = false;
+            if(toggleDoorMenu){
+                toggleDoorMenu = false;
+            }
         }
         
     }
