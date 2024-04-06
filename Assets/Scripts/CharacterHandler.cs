@@ -14,7 +14,12 @@ public class CharacterHandler : MonoBehaviour
 
     GameObject doorMenu;
 
+    public static GameObject lightMenu;
+    GameObject lightInfo;
+
     bool toggleDoorMenu = false;
+    static bool toggleLightMenu = false;
+    bool toggleLightInfo = false;
     bool doorTrigger = false;
 
 
@@ -22,6 +27,8 @@ public class CharacterHandler : MonoBehaviour
     void Start()
     {
         doorMenu = GameObject.Find("door-menu");   
+        lightInfo = GameObject.Find("light-info");   
+        lightMenu = GameObject.Find("light-menu");   
     }
 
     // Update is called once per frame
@@ -29,11 +36,18 @@ public class CharacterHandler : MonoBehaviour
     {
         performRaycast();
 
-        if(isHighlighted && (currentHit != null && currentHit.name.Contains("int-door"))){
-            DoorsHandler.selectedDoor = currentHit;
-            toggleDoorMenu = true;
+        if(isHighlighted && currentHit != null){
+            if(currentHit.name.Contains("int-door")){
+                DoorsHandler.selectedDoor = currentHit;
+                toggleDoorMenu = true;
+            }
+            else if(currentHit.name.Contains("int-light")){
+                LightsController.selectedLight = currentHit;
+                toggleLightInfo = true;
+            }
         }
 
+        // Door Handling START
         if(toggleDoorMenu){
             doorMenu.SetActive(true);
             if(currentHit!=null){
@@ -54,6 +68,42 @@ public class CharacterHandler : MonoBehaviour
         else{
             doorMenu.SetActive(false);
         }
+        // Door Handling END
+
+        // Light Handling START
+        if(toggleLightInfo){
+            lightInfo.SetActive(true);
+            if(currentHit!=null){
+                // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
+                lightInfo.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
+                lightInfo.transform.LookAt(gameObject.transform);
+            }
+            if (Input.GetButton("js10"))
+            {
+                toggleLightMenu = true;
+            }
+            
+            
+        }
+        else{
+            lightInfo.SetActive(false);
+        }
+
+        if(toggleLightMenu){
+            lightMenu.SetActive(true);
+            if(currentHit!=null){
+                
+                // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
+                lightMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1f;
+                lightMenu.transform.LookAt(gameObject.transform);
+                
+            }
+        }
+        else{
+            lightMenu.SetActive(false);
+        }
+
+        // Light Handling END
     }
 
     public void performRaycast(){
@@ -112,7 +162,14 @@ public class CharacterHandler : MonoBehaviour
         
     }
 
-    
+    public static void exitLightMenu(){
+        if(lightMenu.activeSelf){
+            lightMenu.SetActive(false);
+            toggleLightMenu = false;
+            
+        }
+    }
+
     public void disableOutline(GameObject hitObject)
     {   
         if(hitObject != null){
@@ -123,6 +180,9 @@ public class CharacterHandler : MonoBehaviour
             isHighlighted = false;
             if(toggleDoorMenu){
                 toggleDoorMenu = false;
+            }
+            if(toggleLightInfo){
+                toggleLightInfo = false;
             }
         }
         

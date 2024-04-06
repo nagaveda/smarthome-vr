@@ -45,7 +45,7 @@ public class GraphicalRaycaster : MonoBehaviour
             {
                 GameObject hitObject = result.gameObject;
                 
-                if(hitObject != null && hitObject.name == "door-btn"){
+                if(hitObject != null && hitObject.name.Contains("btn-")){
                     doorBtn = hitObject.GetComponent<Button>();
                     Debug.Log("Hit " + doorBtn);
                     doorBtn.OnPointerEnter(null);
@@ -59,6 +59,12 @@ public class GraphicalRaycaster : MonoBehaviour
                         }
                     }
 
+                }
+                else{
+                    if(doorBtn!=null){
+                        doorBtn.OnPointerExit(null);
+                        doorBtn = null;
+                    }
                 }
 
                   
