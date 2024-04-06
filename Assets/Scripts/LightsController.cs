@@ -6,7 +6,6 @@ public class LightsController : MonoBehaviour
 {
     public static GameObject selectedLight;
     
-    public static bool isLightOn = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +22,6 @@ public class LightsController : MonoBehaviour
         Debug.Log("on light");
         Light light = selectedLight.GetComponent<Light>();
         if(light != null){
-            isLightOn = true;
             light.enabled = true;
         }
         CharacterHandler.exitLightMenu();
@@ -32,7 +30,6 @@ public class LightsController : MonoBehaviour
          Debug.Log("off light");
         Light light = selectedLight.GetComponent<Light>();
         if(light != null){
-            isLightOn = false;
             light.enabled=false;
         }
         CharacterHandler.exitLightMenu();

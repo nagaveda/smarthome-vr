@@ -15,11 +15,13 @@ public class CharacterHandler : MonoBehaviour
     GameObject doorMenu;
 
     public static GameObject lightMenu;
-    GameObject lightInfo;
+    public static GameObject fanMenu;
+    GameObject objectInfo;
 
     bool toggleDoorMenu = false;
     static bool toggleLightMenu = false;
-    bool toggleLightInfo = false;
+    static bool toggleFanMenu = false;
+    bool toggleObjectInfo = false;
     bool doorTrigger = false;
 
 
@@ -27,14 +29,16 @@ public class CharacterHandler : MonoBehaviour
     void Start()
     {
         doorMenu = GameObject.Find("door-menu");   
-        lightInfo = GameObject.Find("light-info");   
+        objectInfo = GameObject.Find("obj-info");   
         lightMenu = GameObject.Find("light-menu");   
+        fanMenu = GameObject.Find("fan-menu");   
     }
 
     // Update is called once per frame
     void Update()
     {
         performRaycast();
+        handleAllFans();
 
         if(isHighlighted && currentHit != null){
             if(currentHit.name.Contains("int-door")){
@@ -43,7 +47,11 @@ public class CharacterHandler : MonoBehaviour
             }
             else if(currentHit.name.Contains("int-light")){
                 LightsController.selectedLight = currentHit;
-                toggleLightInfo = true;
+                toggleObjectInfo = true;
+            }
+            else if(currentHit.name.Contains("int-fan")){
+                FanController.selectedFan = currentHit;
+                toggleObjectInfo = true;
             }
         }
 
@@ -70,25 +78,33 @@ public class CharacterHandler : MonoBehaviour
         }
         // Door Handling END
 
-        // Light Handling START
-        if(toggleLightInfo){
-            lightInfo.SetActive(true);
+        
+        //Object Handling starts
+        if(toggleObjectInfo){
+            objectInfo.SetActive(true);
             if(currentHit!=null){
                 // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
-                lightInfo.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
-                lightInfo.transform.LookAt(gameObject.transform);
+                objectInfo.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
+                objectInfo.transform.LookAt(gameObject.transform);
             }
             if (Input.GetButton("js10"))
             {
-                toggleLightMenu = true;
+                if(currentHit.name.Contains("light")){
+                    toggleLightMenu = true;
+                }
+                else if(currentHit.name.Contains("fan")){
+                    toggleFanMenu = true;
+                }
             }
             
             
         }
         else{
-            lightInfo.SetActive(false);
+            objectInfo.SetActive(false);
         }
+        //Object Handling ENDS
 
+        //LIGHT START
         if(toggleLightMenu){
             lightMenu.SetActive(true);
             if(currentHit!=null){
@@ -102,8 +118,23 @@ public class CharacterHandler : MonoBehaviour
         else{
             lightMenu.SetActive(false);
         }
+        //LIGHT END
+        //FAN START
+        if(toggleFanMenu){
+            fanMenu.SetActive(true);
+            if(currentHit!=null){
+                
+                // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
+                fanMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1f;
+                fanMenu.transform.LookAt(gameObject.transform);
+                
+            }
+        }
+        else{
+            fanMenu.SetActive(false);
+        }
+        //FAN END
 
-        // Light Handling END
     }
 
     public void performRaycast(){
@@ -169,6 +200,13 @@ public class CharacterHandler : MonoBehaviour
             
         }
     }
+    public static void exitFanMenu(){
+        if(fanMenu.activeSelf){
+            fanMenu.SetActive(false);
+            toggleFanMenu = false;
+            
+        }
+    }
 
     public void disableOutline(GameObject hitObject)
     {   
@@ -181,11 +219,47 @@ public class CharacterHandler : MonoBehaviour
             if(toggleDoorMenu){
                 toggleDoorMenu = false;
             }
-            if(toggleLightInfo){
-                toggleLightInfo = false;
+            if(toggleObjectInfo){
+                toggleObjectInfo = false;
             }
         }
         
+    }
+
+    //Entire Fans Handling
+    public void handleAllFans(){
+        List<string> fanNames = new List<string>{"int-fan-hall", "int-fan-bed"};
+        foreach(string name in fanNames)
+        {
+            // Find the GameObject with the corresponding name
+            GameObject fanObject = GameObject.Find(name);
+
+            // Check if the GameObject is found
+            if (fanObject != null)
+            {
+                // Get the FanStatus component attached to the fanObject
+                FanStatus fanStatus = fanObject.GetComponent<FanStatus>();
+
+                // Check if the FanStatus component is found
+                if (fanStatus != null)
+                {
+                    // Check if the FanStatus component is enabled
+                    if (fanStatus.enabled)
+                    {
+                        // Rotate the GameObject if the component is enabled
+                        fanObject.transform.Rotate(Vector3.up * Time.deltaTime * 100f);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("FanStatus script not found on the GameObject: " + name);
+                }
+            }
+            else
+            {
+                Debug.LogError("GameObject not found with the name: " + name);
+            }
+        }
     }
 
 }
