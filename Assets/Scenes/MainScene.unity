@@ -1360,8 +1360,16 @@ PrefabInstance:
       value: XRCardboardRig
       objectReference: {fileID: 0}
     - target: {fileID: 7287137020755404942, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.184
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287137020755404942, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.42
+      value: -1.129
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287137020755404942, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.265
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
@@ -1739,7 +1747,7 @@ Transform:
   - {fileID: 14668319}
   - {fileID: 526723670}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &296340054
 PrefabInstance:
@@ -7487,7 +7495,7 @@ Transform:
   - {fileID: 232522683}
   - {fileID: 483304488}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -163.537, z: 0}
 --- !u!120 &1252884526
 LineRenderer:
@@ -8732,47 +8740,47 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.09
+      value: 0.045451794
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.09
+      value: 0.06088296
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.09
+      value: 0.045451794
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.135698
+      value: -18.49
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.9605817
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.719736
+      value: 3.538
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.14317223
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.9896978
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f1ed2d2d573b9478031d3918b235b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11387,7 +11395,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1852176904
 PrefabInstance:
@@ -13033,8 +13041,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 270
-  jumpSpeed: 0
-  jumpButtonGracePeriod: 0
+  CameraObj: {fileID: 232522688}
 --- !u!143 &2114691460
 CharacterController:
   m_ObjectHideFlags: 0
@@ -15400,7 +15407,7 @@ Transform:
   - {fileID: 538844299}
   - {fileID: 685820033}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1979659548024203189
 GameObject:
