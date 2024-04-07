@@ -17,12 +17,21 @@ public class CharacterHandler : MonoBehaviour
     public static GameObject lightMenu;
     public static GameObject fanMenu;
     GameObject objectInfo;
+    GameObject dashboardInfo;
+
+    GameObject hallDashboard;
+    GameObject bedroomDashboard;
 
     bool toggleDoorMenu = false;
     static bool toggleLightMenu = false;
     static bool toggleFanMenu = false;
     bool toggleObjectInfo = false;
+    bool toggleDashboardInfo = false;
     bool doorTrigger = false;
+
+
+    bool toggleHallDashboard = false;
+    bool toggleBedroomDashboard = false;
 
 
     // Start is called before the first frame update
@@ -30,8 +39,11 @@ public class CharacterHandler : MonoBehaviour
     {
         doorMenu = GameObject.Find("door-menu");   
         objectInfo = GameObject.Find("obj-info");   
+        dashboardInfo = GameObject.Find("dash-info");   
         lightMenu = GameObject.Find("light-menu");   
         fanMenu = GameObject.Find("fan-menu");   
+        hallDashboard = GameObject.Find("hall-dashboard");
+        bedroomDashboard = GameObject.Find("bed-dashboard");
     }
 
     // Update is called once per frame
@@ -53,6 +65,9 @@ public class CharacterHandler : MonoBehaviour
                 FanController.selectedFan = currentHit;
                 toggleObjectInfo = true;
             }
+            else if(currentHit.name.Contains("int-dash")){
+                toggleDashboardInfo = true;
+            }
         }
 
         // Door Handling START
@@ -62,16 +77,17 @@ public class CharacterHandler : MonoBehaviour
                 // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
                 doorMenu.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
                 doorMenu.transform.LookAt(gameObject.transform);
+                if (Input.GetButton("js10") && !doorTrigger)
+                {
+                    doorTrigger = true;
+                    DoorsHandler.openCloseDoor();
+                }
+                else if (!Input.GetButton("js10") && doorTrigger)
+                {
+                    doorTrigger = false;
+                }
             }
-            if (Input.GetButton("js10") && !doorTrigger)
-            {
-                doorTrigger = true;
-                DoorsHandler.openCloseDoor();
-            }
-            else if (!Input.GetButton("js10") && doorTrigger)
-            {
-                doorTrigger = false;
-            }
+            
         }
         else{
             doorMenu.SetActive(false);
@@ -86,16 +102,17 @@ public class CharacterHandler : MonoBehaviour
                 // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
                 objectInfo.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
                 objectInfo.transform.LookAt(gameObject.transform);
-            }
-            if (Input.GetButton("js10"))
-            {
-                if(currentHit.name.Contains("light")){
-                    toggleLightMenu = true;
+                if (Input.GetButton("js10"))
+                {
+                    if(currentHit.name.Contains("light")){
+                        toggleLightMenu = true;
+                    }
+                    else if(currentHit.name.Contains("fan")){
+                        toggleFanMenu = true;
+                    }
                 }
-                else if(currentHit.name.Contains("fan")){
-                    toggleFanMenu = true;
-                }
             }
+           
             
             
         }
@@ -134,6 +151,65 @@ public class CharacterHandler : MonoBehaviour
             fanMenu.SetActive(false);
         }
         //FAN END
+
+        //Dashborad START
+        if(toggleDashboardInfo){
+            dashboardInfo.SetActive(true);
+            if(currentHit!=null){
+                
+                // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
+                dashboardInfo.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
+                dashboardInfo.transform.LookAt(gameObject.transform);
+                if (Input.GetButton("js10"))
+                {
+                    if(currentHit.name.Contains("int-dash-hall")){
+                        toggleHallDashboard = true;
+                    }
+                    else if(currentHit.name.Contains("int-dash-bed")){
+                        toggleBedroomDashboard = true;
+                    }
+                    
+                }
+            }
+        }
+        else{
+            dashboardInfo.SetActive(false);
+        }
+        //Dashborad END
+
+        //Hall DASH START
+        if(toggleHallDashboard){
+            DashboardController.updateHallDashboard();
+            hallDashboard.SetActive(true);
+            if(currentHit!=null){
+                
+                // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
+                hallDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1f;
+                hallDashboard.transform.LookAt(gameObject.transform);
+                
+            }
+        }
+        else{
+            hallDashboard.SetActive(false);
+        }
+        //Hall DASH END
+
+        //Bedroom DASH START
+        if(toggleBedroomDashboard){
+            DashboardController.updateBedroomDashboard();
+            bedroomDashboard.SetActive(true);
+            if(currentHit!=null){
+                
+                // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
+                bedroomDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1f;
+                bedroomDashboard.transform.LookAt(gameObject.transform);
+                
+            }
+        }
+        else{
+            bedroomDashboard.SetActive(false);
+        }
+        //Bedroom DASH END
 
     }
 
@@ -222,6 +298,11 @@ public class CharacterHandler : MonoBehaviour
             if(toggleObjectInfo){
                 toggleObjectInfo = false;
             }
+            
+            if(toggleDashboardInfo){
+                toggleDashboardInfo = false;
+            }
+
         }
         
     }
