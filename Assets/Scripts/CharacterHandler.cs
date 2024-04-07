@@ -228,7 +228,7 @@ public class CharacterHandler : MonoBehaviour
 
     //Entire Fans Handling
     public void handleAllFans(){
-        List<string> fanNames = new List<string>{"int-fan-hall", "int-fan-bed"};
+        List<string> fanNames = new List<string>{"int-fan-hall", "int-fan-bed", "int-fan-study"};
         foreach(string name in fanNames)
         {
             // Find the GameObject with the corresponding name
