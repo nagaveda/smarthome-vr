@@ -1307,7 +1307,7 @@ GameObject:
   - component: {fileID: 204321620}
   - component: {fileID: 204321619}
   m_Layer: 0
-  m_Name: close-dash-hall
+  m_Name: btn-close-dash-bed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1377,7 +1377,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 204321620}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1252884531}
+        m_TargetAssemblyTypeName: DashboardController, Assembly-CSharp
+        m_MethodName: closeBedroomDashboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &204321620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6115,7 +6127,7 @@ GameObject:
   - component: {fileID: 913938452}
   - component: {fileID: 913938451}
   m_Layer: 0
-  m_Name: close-dash-hall
+  m_Name: btn-close-dash-hall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6185,7 +6197,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 913938452}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1252884531}
+        m_TargetAssemblyTypeName: DashboardController, Assembly-CSharp
+        m_MethodName: closeHallDashboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &913938452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11764,7 +11788,7 @@ GameObject:
   - component: {fileID: 1563436823}
   - component: {fileID: 1563436822}
   m_Layer: 0
-  m_Name: bedl-tv-status
+  m_Name: bed-tv-status
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15071,7 +15095,7 @@ GameObject:
   - component: {fileID: 1941694385}
   - component: {fileID: 1941694384}
   m_Layer: 0
-  m_Name: bedl-light-status
+  m_Name: bed-light-status
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15728,7 +15752,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5063335663266884311, guid: a3e7d76a64eeb0d4e9c06d290342c838, type: 3}
       propertyPath: m_Name
-      value: Painting_17
+      value: int-dash-bed
       objectReference: {fileID: 0}
     - target: {fileID: 5552732015035854957, guid: a3e7d76a64eeb0d4e9c06d290342c838, type: 3}
       propertyPath: m_RootOrder
@@ -16473,7 +16497,7 @@ GameObject:
   - component: {fileID: 2093751645}
   - component: {fileID: 2093751644}
   m_Layer: 0
-  m_Name: bedl-fan-status
+  m_Name: bed-fan-status
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

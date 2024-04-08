@@ -94,4 +94,11 @@ public class DashboardController : MonoBehaviour
         }
         
     }
+
+    public static void closeHallDashboard(){
+        CharacterHandler.toggleHallDashboard = false;
+    }
+    public static void closeBedroomDashboard(){
+        CharacterHandler.toggleBedroomDashboard = false;
+    }
 }

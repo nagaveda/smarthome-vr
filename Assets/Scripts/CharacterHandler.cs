@@ -30,8 +30,8 @@ public class CharacterHandler : MonoBehaviour
     bool doorTrigger = false;
 
 
-    bool toggleHallDashboard = false;
-    bool toggleBedroomDashboard = false;
+    public static bool toggleHallDashboard = false;
+    public static bool toggleBedroomDashboard = false;
 
 
     // Start is called before the first frame update
