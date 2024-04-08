@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
 
 
 public class CharacterHandler : MonoBehaviour
@@ -33,6 +36,12 @@ public class CharacterHandler : MonoBehaviour
     public static bool toggleHallDashboard = false;
     public static bool toggleBedroomDashboard = false;
 
+    public static GameObject GlobalMenu;
+    bool PressedLastFrame = false;
+    bool speedChanged = false;
+    bool lengthChanged = false;
+    int optionCount = 1;
+    bool counterFlag = false;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +53,8 @@ public class CharacterHandler : MonoBehaviour
         fanMenu = GameObject.Find("fan-menu");   
         hallDashboard = GameObject.Find("hall-dashboard");
         bedroomDashboard = GameObject.Find("bed-dashboard");
+        GlobalMenu = GameObject.Find("settings-menu");
+        GlobalMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -51,6 +62,7 @@ public class CharacterHandler : MonoBehaviour
     {
         performRaycast();
         handleAllFans();
+        handleSettings();
 
         if(isHighlighted && currentHit != null){
             if(currentHit.name.Contains("int-door")){
@@ -164,9 +176,11 @@ public class CharacterHandler : MonoBehaviour
                 {
                     if(currentHit.name.Contains("int-dash-hall")){
                         toggleHallDashboard = true;
+                        RestrictCharacter();
                     }
                     else if(currentHit.name.Contains("int-dash-bed")){
                         toggleBedroomDashboard = true;
+                        RestrictCharacter();
                     }
                     
                 }
@@ -213,6 +227,168 @@ public class CharacterHandler : MonoBehaviour
 
     }
 
+    public void handleSettings(){
+        if(Input.GetButton("js7")){  
+            clearAllAndInitializeGlobalMenu();      
+            updateSpeed();
+        }
+         if(counterFlag){
+                optionCount++;
+                counterFlag = false;
+        }
+         if(GlobalMenu.activeSelf && Input.GetButton("js11") && !PressedLastFrame){
+           counterFlag = true;
+           PressedLastFrame = true;
+        }
+        else if (!Input.GetButton("js11"))
+        {
+            PressedLastFrame = false;
+        }
+        if(GlobalMenu.activeSelf){
+            int selectedOption = optionCount % 4;
+            updateSpeed();
+            updateRaycastLength();
+            
+            if(selectedOption == 1){
+                //resume
+                UnSelectOption("Quit");
+                SelectOption("Resume");
+                if(Input.GetButton("js5")){
+                    Debug.Log("Resume");
+                    Resume();
+                }
+                
+            } else if(selectedOption == 2){
+                //speed
+                UnSelectOption("Resume");
+                SelectOption("Speed");
+                Debug.Log("SPEEEED: "+CharacterMovement.speed);
+                if(Input.GetButton("js5") && !speedChanged){
+                    if(CharacterMovement.speed == 5f){
+                        CharacterMovement.speed = 10f;
+                    }
+                    else if(CharacterMovement.speed == 10f){
+                        CharacterMovement.speed = 20f;
+                    }
+                    else if(CharacterMovement.speed == 20f){
+                        CharacterMovement.speed = 5f;
+                    }
+                    speedChanged = true;
+                    
+                }
+                else if(!Input.GetButton("js5")){
+                    speedChanged = false;         
+                }
+            }
+            else if(selectedOption == 3){
+                //raycast length
+                UnSelectOption("Speed");
+                SelectOption("Length");
+                if(Input.GetButton("js5") && !lengthChanged){
+                    if(raycastLength == 1f){
+                        raycastLength = 10f;
+                    }
+                    else if(raycastLength == 10f){
+                        raycastLength = 50f;
+                    }
+                    else if(raycastLength == 50f){
+                        raycastLength = 1f;
+                    }
+                    lengthChanged = true;
+                }
+                else if(!Input.GetButton("js5")){
+                    lengthChanged = false;         
+                }
+            }
+            else if(selectedOption == 0){
+                //quit
+                UnSelectOption("Length");
+                SelectOption("Quit");
+                if(Input.GetButton("js5")){
+                    Debug.Log("Quit");
+                    quit();
+                }
+            }
+        }
+    }
+     public void updateSpeed(){
+
+        if(GameObject.Find("Speed") != null){
+            GameObject speedobj = GameObject.Find("Speed");
+            Button speedButton = speedobj.GetComponent<Button>();
+                
+            TextMeshProUGUI speedText = speedButton.GetComponentInChildren<TextMeshProUGUI>();
+            if(speedText!=null){
+                if(CharacterMovement.speed == 5f){
+                    speedText.text = "Speed: Slow";
+                }
+                else if(CharacterMovement.speed == 10f){
+                    speedText.text = "Speed: Medium";
+                } 
+                else if(CharacterMovement.speed == 20f){
+                    speedText.text = "Speed: High";
+                }
+            }
+        }
+        
+    }
+
+    public void clearAllAndInitializeGlobalMenu(){
+        toggleBedroomDashboard = false;
+        toggleDashboardInfo = false;
+        toggleDoorMenu = false;
+        toggleFanMenu = false;
+        toggleHallDashboard = false;
+        toggleLightMenu = false;
+        toggleObjectInfo = false;
+        isHighlighted = false;
+        currentHit = null;
+        RestrictCharacter();
+        GlobalMenu.SetActive(true);
+        optionCount = 1;
+        
+        
+    }
+
+     public void updateRaycastLength(){
+        if(GameObject.Find("Length") != null){
+            GameObject lengthObj = GameObject.Find("Length");
+            Button lengthButton = lengthObj.GetComponent<Button>();
+                
+            TextMeshProUGUI lengthText = lengthButton.GetComponentInChildren<TextMeshProUGUI>();
+            if(lengthText!=null){
+                if(raycastLength == 1f){
+                    lengthText.text = "Raycast Length:1m";
+                }
+                else if(raycastLength == 10f){
+                    lengthText.text = "Raycast Length:10m";
+                } 
+                else if(raycastLength == 50f){
+                    lengthText.text = "Raycast Length:50m";
+                }
+            }
+        }
+    }
+
+    public void SelectOption(string btnName){
+        GameObject optionObj = GameObject.Find(btnName);
+        if(optionObj != null){
+            Button optionButton = optionObj.GetComponent<Button>();
+            if(optionButton !=null){
+                optionButton.OnPointerEnter(null);
+            }
+        }
+    }
+    public void UnSelectOption(string btnName){
+        GameObject optionObj = GameObject.Find(btnName);
+        if(optionObj != null){
+            Button optionButton = optionObj.GetComponent<Button>();
+            if(optionButton !=null){
+                optionButton.OnPointerExit(null);
+            }
+        }
+    }
+
     public void performRaycast(){
         
         RaycastHit hit;
@@ -233,8 +409,6 @@ public class CharacterHandler : MonoBehaviour
                     if(currentHit != null){
                         disableOutline(currentHit);
                     }
-                    
-                    // currentHit = null;
                 }
                 
             }
@@ -249,8 +423,6 @@ public class CharacterHandler : MonoBehaviour
                 if(currentHit != null){
                     disableOutline(currentHit);
                 }
-                
-                // currentHit = null;
             }
  
         }
@@ -262,8 +434,7 @@ public class CharacterHandler : MonoBehaviour
             Outline outLineComponent = hitObject.GetComponent<Outline>();
             if(outLineComponent != null){
                 outLineComponent.enabled = true;
-            }
-            
+            } 
             isHighlighted = true;
         }
         
@@ -302,9 +473,36 @@ public class CharacterHandler : MonoBehaviour
             if(toggleDashboardInfo){
                 toggleDashboardInfo = false;
             }
-
         }
         
+    }
+
+
+     public static void RestrictCharacter(){
+        GameObject character = GameObject.Find("Character");
+        CharacterController cc = character.GetComponent<CharacterController>();
+        cc.enabled = false;
+    }
+
+    public static void ReleaseCharacter(){
+        GameObject character = GameObject.Find("Character");
+        CharacterController cc = character.GetComponent<CharacterController>();
+        cc.enabled = true;
+    }
+
+    public void Resume(){
+        GlobalMenu.SetActive(false);
+        ReleaseCharacter();
+    }
+    
+    public void quit(){
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false; // Stop play mode in Unity Editor
+        #elif UNITY_ANDROID
+            Application.Quit(); // Quit application on Android
+        #elif UNITY_IOS
+            Application.Quit(); // Quit application on iOS
+        #endif
     }
 
     //Entire Fans Handling
@@ -312,22 +510,16 @@ public class CharacterHandler : MonoBehaviour
         List<string> fanNames = new List<string>{"int-fan-hall", "int-fan-bed", "int-fan-study"};
         foreach(string name in fanNames)
         {
-            // Find the GameObject with the corresponding name
             GameObject fanObject = GameObject.Find(name);
 
-            // Check if the GameObject is found
             if (fanObject != null)
             {
-                // Get the FanStatus component attached to the fanObject
                 FanStatus fanStatus = fanObject.GetComponent<FanStatus>();
 
-                // Check if the FanStatus component is found
                 if (fanStatus != null)
                 {
-                    // Check if the FanStatus component is enabled
                     if (fanStatus.enabled)
                     {
-                        // Rotate the GameObject if the component is enabled
                         fanObject.transform.Rotate(Vector3.up * Time.deltaTime * 100f);
                     }
                 }

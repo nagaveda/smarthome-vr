@@ -97,8 +97,10 @@ public class DashboardController : MonoBehaviour
 
     public static void closeHallDashboard(){
         CharacterHandler.toggleHallDashboard = false;
+        CharacterHandler.ReleaseCharacter();
     }
     public static void closeBedroomDashboard(){
         CharacterHandler.toggleBedroomDashboard = false;
+        CharacterHandler.ReleaseCharacter();
     }
 }
