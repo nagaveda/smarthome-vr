@@ -23,11 +23,17 @@ public class DoorsHandler : MonoBehaviour
         Debug.Log("open");
         isDoorOpen = true;
         selectedDoor.transform.Rotate(0, 90, 0);
+        if(selectedDoor != null){
+            AudioSource sound = selectedDoor.GetComponent<AudioSource>();
+            sound.enabled = true;
+        }
     }
     public static void closeDoor(){
         Debug.Log("close");
         selectedDoor.transform.Rotate(0, -90, 0);
         isDoorOpen = false;
+        AudioSource sound = selectedDoor.GetComponent<AudioSource>();
+        sound.enabled = false;
     }
 
     public static void openCloseDoor(){
