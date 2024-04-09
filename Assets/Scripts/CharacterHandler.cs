@@ -87,7 +87,7 @@ public class CharacterHandler : MonoBehaviour
             doorMenu.SetActive(true);
             if(currentHit!=null){
                 // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
-                doorMenu.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
+                doorMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 doorMenu.transform.LookAt(gameObject.transform);
                 if (Input.GetButton("js10") && !doorTrigger)
                 {
@@ -112,7 +112,7 @@ public class CharacterHandler : MonoBehaviour
             objectInfo.SetActive(true);
             if(currentHit!=null){
                 // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
-                objectInfo.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
+                objectInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 objectInfo.transform.LookAt(gameObject.transform);
                 if (Input.GetButton("js10"))
                 {
@@ -139,7 +139,7 @@ public class CharacterHandler : MonoBehaviour
             if(currentHit!=null){
                 
                 // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                lightMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1f;
+                lightMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
                 lightMenu.transform.LookAt(gameObject.transform);
                 
             }
@@ -154,7 +154,7 @@ public class CharacterHandler : MonoBehaviour
             if(currentHit!=null){
                 
                 // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                fanMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1f;
+                fanMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
                 fanMenu.transform.LookAt(gameObject.transform);
                 
             }
@@ -170,7 +170,7 @@ public class CharacterHandler : MonoBehaviour
             if(currentHit!=null){
                 
                 // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                dashboardInfo.transform.position = gameObject.transform.position + Camera.main.transform.forward * 1f;
+                dashboardInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 dashboardInfo.transform.LookAt(gameObject.transform);
                 if (Input.GetButton("js10"))
                 {
@@ -198,7 +198,7 @@ public class CharacterHandler : MonoBehaviour
             if(currentHit!=null){
                 
                 // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                hallDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1f;
+                hallDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
                 hallDashboard.transform.LookAt(gameObject.transform);
                 
             }
@@ -214,8 +214,7 @@ public class CharacterHandler : MonoBehaviour
             bedroomDashboard.SetActive(true);
             if(currentHit!=null){
                 
-                // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                bedroomDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1f;
+                bedroomDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
                 bedroomDashboard.transform.LookAt(gameObject.transform);
                 
             }
