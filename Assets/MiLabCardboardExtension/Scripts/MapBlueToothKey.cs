@@ -50,15 +50,15 @@ public class MapBlueToothKey : MonoBehaviour
                 tm.text += string.Format("Jump \n"); ;
             }
 
-            if(Input.GetAxis("Joystick Axis 1") != 0)
-            {
-                tm.text += string.Format("Joystick Axis 1: {0}\n", Input.GetAxis("Joystick Axis 1")); ;
-            }
+            // if(Input.GetAxis("Joystick Axis 1") != 0)
+            // {
+            //     tm.text += string.Format("Joystick Axis 1: {0}\n", Input.GetAxis("Joystick Axis 1")); ;
+            // }
 
-            if (Input.GetAxis("Joystick Axis 2") != 0)
-            {
-                tm.text += string.Format("Joystick Axis 2: {0}\n", Input.GetAxis("Joystick Axis 2")); ;
-            }
+            // if (Input.GetAxis("Joystick Axis 2") != 0)
+            // {
+            //     tm.text += string.Format("Joystick Axis 2: {0}\n", Input.GetAxis("Joystick Axis 2")); ;
+            // }
         }
 
     }

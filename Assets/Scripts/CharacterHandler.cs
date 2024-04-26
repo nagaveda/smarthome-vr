@@ -87,14 +87,17 @@ public class CharacterHandler : MonoBehaviour
             doorMenu.SetActive(true);
             if(currentHit!=null){
                 // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
+                // doorMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
+                // doorMenu.transform.LookAt(gameObject.transform);
                 doorMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 doorMenu.transform.LookAt(gameObject.transform);
-                if (Input.GetButton("js2") && !doorTrigger)
+                
+                if (Input.GetButton("js10") && !doorTrigger)
                 {
                     doorTrigger = true;
                     DoorsHandler.openCloseDoor();
                 }
-                else if (!Input.GetButton("js2") && doorTrigger)
+                else if (!Input.GetButton("js10") && doorTrigger)
                 {
                     doorTrigger = false;
                 }
@@ -112,9 +115,12 @@ public class CharacterHandler : MonoBehaviour
             objectInfo.SetActive(true);
             if(currentHit!=null){
                 // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
+                // objectInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
+                // objectInfo.transform.LookAt(gameObject.transform);
                 objectInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 objectInfo.transform.LookAt(gameObject.transform);
-                if (Input.GetButton("js2"))
+
+                if (Input.GetButton("js10"))
                 {
                     if(currentHit.name.Contains("light")){
                         toggleLightMenu = true;
@@ -139,7 +145,11 @@ public class CharacterHandler : MonoBehaviour
             if(currentHit!=null){
                 
                 // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                lightMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
+                // lightMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
+                // lightMenu.transform.LookAt(gameObject.transform);
+
+                Vector3 menuPosition = currentHit.transform.position + new Vector3(0.3f, 0.6f, 0);
+                lightMenu.transform.position = menuPosition;
                 lightMenu.transform.LookAt(gameObject.transform);
                 
             }
@@ -154,7 +164,13 @@ public class CharacterHandler : MonoBehaviour
             if(currentHit!=null){
                 
                 // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                fanMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
+                // fanMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
+                // fanMenu.transform.LookAt(gameObject.transform);
+
+                Vector3 menuPosition = currentHit.transform.position + new Vector3(0.3f,-0.6f, 0);
+
+                // Set the position of the lightMenu
+                fanMenu.transform.position = menuPosition;
                 fanMenu.transform.LookAt(gameObject.transform);
                 
             }
@@ -170,9 +186,13 @@ public class CharacterHandler : MonoBehaviour
             if(currentHit!=null){
                 
                 // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
+                // dashboardInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
+                // dashboardInfo.transform.LookAt(gameObject.transform);
+
                 dashboardInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 dashboardInfo.transform.LookAt(gameObject.transform);
-                if (Input.GetButton("js2"))
+
+                if (Input.GetButton("js10"))
                 {
                     if(currentHit.name.Contains("int-dash-hall")){
                         toggleHallDashboard = true;
@@ -198,7 +218,11 @@ public class CharacterHandler : MonoBehaviour
             if(currentHit!=null){
                 
                 // hallDashboard.transform.position = new Vector3(gameObject.transform.position.x+0.3f, gameObject.transform.position.y +0.6f, gameObject.transform.position.z);
-                hallDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
+                // hallDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
+                // hallDashboard.transform.LookAt(gameObject.transform);
+
+                Vector3 dashboardPosition = currentHit.transform.position + new Vector3(0,-0.6f, -1f);
+                hallDashboard.transform.position = dashboardPosition;
                 hallDashboard.transform.LookAt(gameObject.transform);
 
                
@@ -216,7 +240,11 @@ public class CharacterHandler : MonoBehaviour
             bedroomDashboard.SetActive(true);
             if(currentHit!=null){
                 // bedroomDashboard.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                bedroomDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
+                // bedroomDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
+                // bedroomDashboard.transform.LookAt(gameObject.transform);
+
+                Vector3 dashboardPosition = currentHit.transform.position + new Vector3(0.3f,-0.8f, 0.3f);
+                bedroomDashboard.transform.position = dashboardPosition;
                 bedroomDashboard.transform.LookAt(gameObject.transform);
                 
                 
@@ -238,11 +266,11 @@ public class CharacterHandler : MonoBehaviour
                 optionCount++;
                 counterFlag = false;
         }
-         if(GlobalMenu.activeSelf && Input.GetButton("js10") && !PressedLastFrame){
+         if(GlobalMenu.activeSelf && Input.GetButton("js11") && !PressedLastFrame){
            counterFlag = true;
            PressedLastFrame = true;
         }
-        else if (!Input.GetButton("js10"))
+        else if (!Input.GetButton("js11"))
         {
             PressedLastFrame = false;
         }
@@ -255,7 +283,7 @@ public class CharacterHandler : MonoBehaviour
                 //resume
                 UnSelectOption("Quit");
                 SelectOption("Resume");
-                if(Input.GetButton("js3")){
+                if(Input.GetButton("js5")){
                     Debug.Log("Resume");
                     Resume();
                 }
@@ -265,7 +293,7 @@ public class CharacterHandler : MonoBehaviour
                 UnSelectOption("Resume");
                 SelectOption("Speed");
                 Debug.Log("SPEEEED: "+CharacterMovement.speed);
-                if(Input.GetButton("js3") && !speedChanged){
+                if(Input.GetButton("js5") && !speedChanged){
                     if(CharacterMovement.speed == 5f){
                         CharacterMovement.speed = 10f;
                     }
@@ -278,7 +306,7 @@ public class CharacterHandler : MonoBehaviour
                     speedChanged = true;
                     
                 }
-                else if(!Input.GetButton("js3")){
+                else if(!Input.GetButton("js5")){
                     speedChanged = false;         
                 }
             }
@@ -286,7 +314,7 @@ public class CharacterHandler : MonoBehaviour
                 //raycast length
                 UnSelectOption("Speed");
                 SelectOption("Length");
-                if(Input.GetButton("js3") && !lengthChanged){
+                if(Input.GetButton("js5") && !lengthChanged){
                     if(raycastLength == 1f){
                         raycastLength = 10f;
                     }
@@ -298,7 +326,7 @@ public class CharacterHandler : MonoBehaviour
                     }
                     lengthChanged = true;
                 }
-                else if(!Input.GetButton("js3")){
+                else if(!Input.GetButton("js5")){
                     lengthChanged = false;         
                 }
             }
@@ -306,7 +334,7 @@ public class CharacterHandler : MonoBehaviour
                 //quit
                 UnSelectOption("Length");
                 SelectOption("Quit");
-                if(Input.GetButton("js3")){
+                if(Input.GetButton("js5")){
                     Debug.Log("Quit");
                     quit();
                 }

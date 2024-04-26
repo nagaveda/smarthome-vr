@@ -41,7 +41,7 @@ public class GraphicalRaycaster : MonoBehaviour
                     doorBtn = hitObject.GetComponent<Button>();
                     Debug.Log("Hit " + doorBtn);
                     doorBtn.OnPointerEnter(null);
-                    if(Input.GetButton("js2")){
+                    if(Input.GetButton("js10")){
                         doorBtn.onClick.Invoke();
                     }
                     if(CharacterObj != null){
