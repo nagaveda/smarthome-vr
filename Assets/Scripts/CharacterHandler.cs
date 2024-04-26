@@ -91,7 +91,7 @@ public class CharacterHandler : MonoBehaviour
                 // doorMenu.transform.LookAt(gameObject.transform);
                 doorMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 doorMenu.transform.LookAt(gameObject.transform);
-                
+
                 if (Input.GetButton("js10") && !doorTrigger)
                 {
                     doorTrigger = true;
@@ -147,10 +147,17 @@ public class CharacterHandler : MonoBehaviour
                 // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
                 // lightMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
                 // lightMenu.transform.LookAt(gameObject.transform);
-
-                Vector3 menuPosition = currentHit.transform.position + new Vector3(0.3f, 0.6f, 0);
-                lightMenu.transform.position = menuPosition;
-                lightMenu.transform.LookAt(gameObject.transform);
+                if(currentHit.name.Contains("hall") || currentHit.name.Contains("bed")){
+                    Vector3 menuPosition = currentHit.transform.position + new Vector3(0.3f, 0.6f, 0);
+                    lightMenu.transform.position = menuPosition;
+                    lightMenu.transform.LookAt(gameObject.transform);
+                }
+                else{
+                    Vector3 menuPosition = currentHit.transform.position + new Vector3(0.3f,-0.6f, 0);
+                    lightMenu.transform.position = menuPosition;
+                    lightMenu.transform.LookAt(gameObject.transform);
+                }
+                
                 
             }
         }
