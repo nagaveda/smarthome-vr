@@ -555,7 +555,18 @@ public class CharacterHandler : MonoBehaviour
                 {
                     if (fanStatus.enabled)
                     {
-                        fanObject.transform.Rotate(Vector3.up * Time.deltaTime * 100f);
+                        float speed = 100f; // default handling
+                        if(fanObject.name.Contains("hall")){
+                            speed = FanController.fanSpeedHall;
+                        }
+                        else if(fanObject.name.Contains("bed")){
+                            speed = FanController.fanSpeedBedroom;
+                        }
+                        else if(fanObject.name.Contains("study")){
+                            speed = FanController.fanSpeedStudyroom;
+                        }
+                        
+                        fanObject.transform.Rotate(Vector3.up * Time.deltaTime * speed);
                     }
                 }
                 else

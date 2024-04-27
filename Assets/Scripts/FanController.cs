@@ -5,6 +5,10 @@ using UnityEngine;
 public class FanController : MonoBehaviour
 {
     public static GameObject selectedFan;
+    public static float fanSpeedHall = 100f;
+    public static float fanSpeedBedroom = 100f;
+    public static float fanSpeedStudyroom = 100f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +57,36 @@ public class FanController : MonoBehaviour
         }
        
         CharacterHandler.exitFanMenu();
+    }
+
+    public static void increaseSpeed(){
+        Debug.Log("Increasing fan speed");
+        if(selectedFan != null){
+            if(selectedFan.name.Contains("hall")){
+                fanSpeedHall += 100f;
+            }
+            else if(selectedFan.name.Contains("bed")){
+                fanSpeedBedroom += 100f;
+            }
+            else if(selectedFan.name.Contains("study")){
+                fanSpeedStudyroom += 100f;
+            }
+        }
+        
+    }
+    public static void decreaseSpeed(){
+        Debug.Log("Decreasing fan speed");
+        if(selectedFan != null){
+            if(selectedFan.name.Contains("hall")){
+                fanSpeedHall -= 100f;
+            }
+            else if(selectedFan.name.Contains("bed")){
+                fanSpeedBedroom -= 100f;
+            }
+            else if(selectedFan.name.Contains("study")){
+                fanSpeedStudyroom -= 100f;
+            }
+        }
     }
 
 }
