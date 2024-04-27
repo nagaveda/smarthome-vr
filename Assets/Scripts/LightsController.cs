@@ -34,4 +34,23 @@ public class LightsController : MonoBehaviour
         }
         CharacterHandler.exitLightMenu();
     }
+
+    public static void increaseBrightness(){
+        Debug.Log("light brightness increase");
+        Light light = selectedLight.GetComponent<Light>();
+        if(light != null){
+            if(light.enabled){
+                light.intensity+=0.2f;
+            }
+        }
+    }
+    public static void decreaseBrightness(){
+        Debug.Log("light brightness decrease");
+        Light light = selectedLight.GetComponent<Light>();
+        if(light != null){
+            if(light.enabled){
+                light.intensity-=0.2f;
+            }
+        }
+    }
 }

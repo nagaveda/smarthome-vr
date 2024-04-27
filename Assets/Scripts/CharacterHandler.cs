@@ -156,9 +156,7 @@ public class CharacterHandler : MonoBehaviour
                     Vector3 menuPosition = currentHit.transform.position + new Vector3(0.3f,-0.6f, 0);
                     lightMenu.transform.position = menuPosition;
                     lightMenu.transform.LookAt(gameObject.transform);
-                }
-                
-                
+                }   
             }
         }
         else{

@@ -10,6 +10,7 @@ public class GraphicalRaycaster : MonoBehaviour
     PointerEventData m_PointerEventData;
     EventSystem m_EventSystem;
     GameObject CharacterObj;
+    bool flag = false;
 
     Button doorBtn;
     // Start is called before the first frame update
@@ -39,10 +40,17 @@ public class GraphicalRaycaster : MonoBehaviour
                 
                 if(hitObject != null && hitObject.name.Contains("btn-")){
                     doorBtn = hitObject.GetComponent<Button>();
-                    Debug.Log("Hit " + doorBtn);
+                    // Debug.Log("Hit " + doorBtn);
                     doorBtn.OnPointerEnter(null);
                     if(Input.GetButton("js10")){
-                        doorBtn.onClick.Invoke();
+                        if(!flag){
+                            doorBtn.onClick.Invoke();
+                            flag = true;
+                        }
+
+                    }
+                    else{
+                        flag = false;
                     }
                     if(CharacterObj != null){
                         LineRenderer lr = CharacterObj.GetComponent<LineRenderer>();
@@ -57,6 +65,7 @@ public class GraphicalRaycaster : MonoBehaviour
                         doorBtn.OnPointerExit(null);
                         doorBtn = null;
                     }
+                    
                 }
 
                 
@@ -67,6 +76,8 @@ public class GraphicalRaycaster : MonoBehaviour
                 doorBtn.OnPointerExit(null);
                 doorBtn = null;
             }
+            flag = false;
+            
         }
     }
 }
