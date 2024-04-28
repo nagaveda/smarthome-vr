@@ -9,7 +9,7 @@ using TMPro;
 public class CharacterHandler : MonoBehaviour
 {
     [SerializeField] Transform rayCastSource;
-    GameObject currentHit;
+    public static GameObject currentHit;
     GameObject hitObject;
     public float raycastLength = 10f;
     public LineRenderer lineRenderer;
@@ -19,6 +19,7 @@ public class CharacterHandler : MonoBehaviour
 
     public static GameObject lightMenu;
     public static GameObject fanMenu;
+    public static GameObject tvMenu;
     GameObject objectInfo;
     GameObject dashboardInfo;
 
@@ -28,9 +29,12 @@ public class CharacterHandler : MonoBehaviour
     bool toggleDoorMenu = false;
     static bool toggleLightMenu = false;
     static bool toggleFanMenu = false;
+    static bool toggleTvListener = false;
     bool toggleObjectInfo = false;
     bool toggleDashboardInfo = false;
     bool doorTrigger = false;
+
+    bool tvPlayTrigger = false;
 
 
     public static bool toggleHallDashboard = false;
@@ -51,6 +55,7 @@ public class CharacterHandler : MonoBehaviour
         dashboardInfo = GameObject.Find("dash-info");   
         lightMenu = GameObject.Find("light-menu");   
         fanMenu = GameObject.Find("fan-menu");   
+        tvMenu = GameObject.Find("tv-menu");   
         hallDashboard = GameObject.Find("hall-dashboard");
         bedroomDashboard = GameObject.Find("bed-dashboard");
         GlobalMenu = GameObject.Find("settings-menu");
@@ -80,15 +85,16 @@ public class CharacterHandler : MonoBehaviour
             else if(currentHit.name.Contains("int-dash")){
                 toggleDashboardInfo = true;
             }
+            else if(currentHit.name.Contains("int-tv") || currentHit.name.Contains("int-screen")){
+                toggleTvListener = true;
+            }
         }
 
         // Door Handling START
         if(toggleDoorMenu){
             doorMenu.SetActive(true);
             if(currentHit!=null){
-                // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
-                // doorMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
-                // doorMenu.transform.LookAt(gameObject.transform);
+                
                 doorMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 doorMenu.transform.LookAt(gameObject.transform);
 
@@ -114,9 +120,7 @@ public class CharacterHandler : MonoBehaviour
         if(toggleObjectInfo){
             objectInfo.SetActive(true);
             if(currentHit!=null){
-                // doorMenu.transform.position = new Vector3(gameObject.transform.position.x+0.2f, gameObject.transform.position.y+0.4f, gameObject.transform.position.z+0.3f);
-                // objectInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
-                // objectInfo.transform.LookAt(gameObject.transform);
+              
                 objectInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 objectInfo.transform.LookAt(gameObject.transform);
 
@@ -139,14 +143,32 @@ public class CharacterHandler : MonoBehaviour
         }
         //Object Handling ENDS
 
+        //TV START
+        if(toggleTvListener){
+            if(currentHit!=null){
+                if(currentHit.name.Contains("tv-hall") || currentHit.name.Contains("screen-hall")){
+                    if (Input.GetButton("js10") && !tvPlayTrigger)
+                    {
+                        tvPlayTrigger = true;
+                        TvController.HandleTvPower();
+                    }
+                    else if (!Input.GetButton("js10") && tvPlayTrigger)
+                    {
+                        tvPlayTrigger = false;
+                    }  
+                }
+                 
+            }
+        }
+       
+        //TV END
+
         //LIGHT START
         if(toggleLightMenu){
             lightMenu.SetActive(true);
             if(currentHit!=null){
                 
-                // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                // lightMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
-                // lightMenu.transform.LookAt(gameObject.transform);
+               
                 if(currentHit.name.Contains("hall") || currentHit.name.Contains("bed")){
                     Vector3 menuPosition = currentHit.transform.position + new Vector3(0.3f, 0.6f, 0);
                     lightMenu.transform.position = menuPosition;
@@ -168,13 +190,9 @@ public class CharacterHandler : MonoBehaviour
             fanMenu.SetActive(true);
             if(currentHit!=null){
                 
-                // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                // fanMenu.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
-                // fanMenu.transform.LookAt(gameObject.transform);
+               
 
                 Vector3 menuPosition = currentHit.transform.position + new Vector3(0.3f,-0.6f, 0);
-
-                // Set the position of the lightMenu
                 fanMenu.transform.position = menuPosition;
                 fanMenu.transform.LookAt(gameObject.transform);
                 
@@ -189,10 +207,6 @@ public class CharacterHandler : MonoBehaviour
         if(toggleDashboardInfo){
             dashboardInfo.SetActive(true);
             if(currentHit!=null){
-                
-                // lightMenu.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                // dashboardInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
-                // dashboardInfo.transform.LookAt(gameObject.transform);
 
                 dashboardInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 dashboardInfo.transform.LookAt(gameObject.transform);
@@ -201,11 +215,9 @@ public class CharacterHandler : MonoBehaviour
                 {
                     if(currentHit.name.Contains("int-dash-hall")){
                         toggleHallDashboard = true;
-                        RestrictCharacter();
                     }
                     else if(currentHit.name.Contains("int-dash-bed")){
                         toggleBedroomDashboard = true;
-                        RestrictCharacter();
                     }
                     
                 }
@@ -221,17 +233,11 @@ public class CharacterHandler : MonoBehaviour
             DashboardController.updateHallDashboard();
             hallDashboard.SetActive(true);
             if(currentHit!=null){
-                
-                // hallDashboard.transform.position = new Vector3(gameObject.transform.position.x+0.3f, gameObject.transform.position.y +0.6f, gameObject.transform.position.z);
-                // hallDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
-                // hallDashboard.transform.LookAt(gameObject.transform);
-
+               
                 Vector3 dashboardPosition = currentHit.transform.position + new Vector3(0,-0.6f, -1f);
                 hallDashboard.transform.position = dashboardPosition;
                 hallDashboard.transform.LookAt(gameObject.transform);
 
-               
-                
             }
         }
         else{
@@ -244,10 +250,7 @@ public class CharacterHandler : MonoBehaviour
             DashboardController.updateBedroomDashboard();
             bedroomDashboard.SetActive(true);
             if(currentHit!=null){
-                // bedroomDashboard.transform.position = new Vector3(currentHit.transform.position.x+0.3f, currentHit.transform.position.y +0.6f, currentHit.transform.position.z);
-                // bedroomDashboard.transform.position = gameObject.transform.position + gameObject.transform.forward * 1.5f + Vector3.up * 0.4f;
-                // bedroomDashboard.transform.LookAt(gameObject.transform);
-
+                
                 Vector3 dashboardPosition = currentHit.transform.position + new Vector3(0.3f,-0.8f, 0.3f);
                 bedroomDashboard.transform.position = dashboardPosition;
                 bedroomDashboard.transform.LookAt(gameObject.transform);
@@ -297,7 +300,7 @@ public class CharacterHandler : MonoBehaviour
                 //speed
                 UnSelectOption("Resume");
                 SelectOption("Speed");
-                Debug.Log("SPEEEED: "+CharacterMovement.speed);
+                Debug.Log("SPEED: "+CharacterMovement.speed);
                 if(Input.GetButton("js5") && !speedChanged){
                     if(CharacterMovement.speed == 5f){
                         CharacterMovement.speed = 10f;
@@ -475,6 +478,7 @@ public class CharacterHandler : MonoBehaviour
         
     }
 
+    
     public static void exitLightMenu(){
         if(lightMenu.activeSelf){
             lightMenu.SetActive(false);
@@ -508,6 +512,12 @@ public class CharacterHandler : MonoBehaviour
             if(toggleDashboardInfo){
                 toggleDashboardInfo = false;
             }
+            
+            if(toggleTvListener){
+                toggleTvListener = false;
+            }
+
+
         }
         
     }

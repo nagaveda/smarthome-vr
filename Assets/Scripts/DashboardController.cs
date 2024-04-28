@@ -19,6 +19,7 @@ public class DashboardController : MonoBehaviour
     public static void updateHallDashboard(){
         bool isLightOn = false;
         bool isFanOn = false;
+        bool isTvOn = TvController.isTvOn;
         GameObject hall_Fan = GameObject.Find("int-fan-hall");
         FanStatus fanStatus = hall_Fan.GetComponent<FanStatus>();
         if(fanStatus != null){
@@ -32,7 +33,19 @@ public class DashboardController : MonoBehaviour
 
         GameObject hallFanStatus = GameObject.Find("hall-fan-status");
         GameObject hallLightStatus = GameObject.Find("hall-light-status");
+        GameObject hallTvStatus = GameObject.Find("hall-tv-status");
 
+        // Tv Handling
+
+        if(hallTvStatus != null){
+            TextMeshProUGUI TvText = hallTvStatus.GetComponent<TextMeshProUGUI>();
+            if(TvText != null){
+                TvText.text = isTvOn ? "ON" : "OFF";
+            }
+        }
+        else{
+            Debug.Log("Issue with Tv Status");
+        }
         
         if (hallFanStatus != null && hallLightStatus != null)
         {
