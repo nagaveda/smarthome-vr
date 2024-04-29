@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class AvatarMove : MonoBehaviour
 {
@@ -48,5 +49,21 @@ public class AvatarMove : MonoBehaviour
 
             animator.SetBool("Ismoving", false);
         }
+
+
+        if (Input.GetButton("js10") && (DoorsHandler.isDoorOpen))
+        {
+            animator.SetBool("Isopening", true);
+            StartCoroutine(ResetIsOpening());
+        }
+        
+
+    }
+    IEnumerator ResetIsOpening()
+    {
+        // Wait for 1.5 seconds
+        yield return new WaitForSeconds(1.0f);
+        // After 1.5 seconds, set Isopening parameter back to false
+        animator.SetBool("Isopening", false);
     }
 }
