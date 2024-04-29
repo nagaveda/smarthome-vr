@@ -26,6 +26,22 @@ public class CharacterHandler : MonoBehaviour
     GameObject hallDashboard;
     GameObject bedroomDashboard;
 
+     // Added microwave and refrigirator RXA220017   
+    public static GameObject microwaveMenu;
+    public static bool toggleMicrowaveMenu = false;
+    public static GameObject chicken_object;
+    static bool togglechickenCookMenu = false;
+    public static GameObject chicken_menu;
+    public static bool change_food_pos = true;
+    public static Vector3 initial_chicken_position;
+    public static Vector3 microwave_pos;
+    public static GameObject microwavedoor;
+
+    public static GameObject refrigeratorMenu;
+    public static bool toggleRefrigeratorMenu = false;
+    public static Vector3 refrigerator_pos;
+
+    // END
     bool toggleDoorMenu = false;
     static bool toggleLightMenu = false;
     static bool toggleFanMenu = false;
@@ -60,6 +76,22 @@ public class CharacterHandler : MonoBehaviour
         bedroomDashboard = GameObject.Find("bed-dashboard");
         GlobalMenu = GameObject.Find("settings-menu");
         GlobalMenu.SetActive(false);
+
+        // Added microwave and refrigirator RXA220017   
+        microwaveMenu = GameObject.Find("microwave-menu");
+        microwavedoor = GameObject.Find("int-microwave_C2_02");
+        chicken_object = GameObject.Find("int-Chicken_01");
+        chicken_menu = GameObject.Find("chicken-menu");
+        initial_chicken_position = chicken_object.transform.position;
+        microwave_pos = GameObject.Find("int-microwave-kitchen").transform.position;
+
+        refrigeratorMenu = GameObject.Find("refrigirator-menu");
+        refrigerator_pos = GameObject.Find("int-Refrigerator3_C2").transform.position;
+        refrigeratorMenu.SetActive(false);
+
+
+        // END
+
     }
 
     // Update is called once per frame
@@ -87,7 +119,19 @@ public class CharacterHandler : MonoBehaviour
             }
             else if(currentHit.name.Contains("int-tv") || currentHit.name.Contains("int-screen")){
                 toggleTvListener = true;
+            }// Added microwave and refrigirator RXA220017   
+            else if(currentHit.name.Contains("int-microwave")) {
+                MicrowaveController.selectedMicrowave = currentHit;
+                if(!microwaveMenu.activeSelf) toggleObjectInfo = true;
             }
+            else if (currentHit.name.Contains("int-Chicken_01")) {
+                togglechickenCookMenu = true;
+            }
+            else if (currentHit.name.Contains("int-Refrige")) {
+                if(toggleRefrigeratorMenu == false) toggleObjectInfo = true;
+            }
+            
+            // END
         }
 
         // Door Handling START
@@ -131,7 +175,15 @@ public class CharacterHandler : MonoBehaviour
                     }
                     else if(currentHit.name.Contains("fan")){
                         toggleFanMenu = true;
+                    }// Added microwave and refrigirator RXA220017   
+                    else if(currentHit.name.Contains("microwave")) {
+                        toggleMicrowaveMenu = true;
                     }
+                    else if(currentHit.name.Contains("Refrigerator")) {
+                        toggleRefrigeratorMenu = true;
+                        toggleObjectInfo = false;
+                    }
+                    // END
                 }
             }
            
@@ -162,6 +214,29 @@ public class CharacterHandler : MonoBehaviour
         }
        
         //TV END
+
+        // Chicken Menu Handling Starts 
+        if(togglechickenCookMenu) {
+            chicken_menu.SetActive(true);
+            if (currentHit != null){
+                chicken_menu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
+                chicken_menu.transform.LookAt(gameObject.transform);
+
+                if (Input.GetButton("js10") && change_food_pos == true) {
+                    microwavedoor.transform.Rotate(0 , 90 , 0);
+                    MicrowaveController.microdoorflag = true;
+                    currentHit.transform.position = currentHit.transform.position + new Vector3(0.5f, 0.53f, 0.3f);
+                    MicrowaveController.food_present = true;
+                    change_food_pos = false;
+                }
+            }
+                
+        }
+        else {
+            chicken_menu.SetActive(false);
+            
+        }
+
 
         //LIGHT START
         if(toggleLightMenu){
@@ -203,6 +278,46 @@ public class CharacterHandler : MonoBehaviour
         }
         //FAN END
 
+         // Added microwave and refrigirator RXA220017   
+
+        if (toggleMicrowaveMenu) {
+            microwaveMenu.SetActive(true);
+            
+
+            if(currentHit != null) {
+                Vector3 menuPosition = microwave_pos + new Vector3(0.75f, -0f , -0.25f);
+                microwaveMenu.transform.position = menuPosition;
+                microwaveMenu.transform.LookAt(gameObject.transform);
+                // microwaveMenu.transform.LookAt(gameObject.transform);
+            }
+        }
+        else {
+            microwaveMenu.SetActive(false);
+        }
+        // Microwave End
+
+
+        //Added Refrigerator
+        if (toggleRefrigeratorMenu) {
+            refrigeratorMenu.SetActive(true);
+            toggleRefrigeratorMenu = true;
+            
+
+            Debug.Log("Activated the refrigerator menu");
+
+            // if (currentHit != null) {
+            //     Vector3 menuPosition = refrigerator_pos + new Vector3(-1f , 0.5f , -0.3f);
+            //     refrigeratorMenu.transform.position = menuPosition;
+            //     refrigeratorMenu.transform.Rotate(Vector3.up, 90f);
+
+            // }
+        }
+        else {
+            toggleRefrigeratorMenu = false;
+        }
+        //Refrigerator End
+        
+
         //Dashborad START
         if(toggleDashboardInfo){
             dashboardInfo.SetActive(true);
@@ -218,6 +333,10 @@ public class CharacterHandler : MonoBehaviour
                     }
                     else if(currentHit.name.Contains("int-dash-bed")){
                         toggleBedroomDashboard = true;
+                    }
+                    else if(currentHit.name.Contains("int-dash-kitchen")) {
+                        
+                        RestrictCharacter();
                     }
                     
                 }
@@ -379,6 +498,9 @@ public class CharacterHandler : MonoBehaviour
         toggleHallDashboard = false;
         toggleLightMenu = false;
         toggleObjectInfo = false;
+        togglechickenCookMenu = false;
+        toggleMicrowaveMenu = false;
+        toggleRefrigeratorMenu = false;
         isHighlighted = false;
         currentHit = null;
         RestrictCharacter();
@@ -494,6 +616,16 @@ public class CharacterHandler : MonoBehaviour
         }
     }
 
+    // Added microwave and refrigirator RXA220017   
+
+    public static void exitMicrowaveMenu() {
+        if(microwaveMenu.activeSelf) {
+            microwaveMenu.SetActive(false);
+            toggleMicrowaveMenu = false;
+        }
+    }
+
+    // END
     public void disableOutline(GameObject hitObject)
     {   
         if(hitObject != null){
@@ -511,6 +643,9 @@ public class CharacterHandler : MonoBehaviour
             
             if(toggleDashboardInfo){
                 toggleDashboardInfo = false;
+            }
+            if(togglechickenCookMenu) {
+                togglechickenCookMenu = false;
             }
             
             if(toggleTvListener){
