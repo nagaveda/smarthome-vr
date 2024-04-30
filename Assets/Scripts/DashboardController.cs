@@ -108,6 +108,10 @@ public class DashboardController : MonoBehaviour
         
     }
 
+    public static void updateKitchenDashboard() {
+        
+    }
+
     public static void closeHallDashboard(){
         CharacterHandler.toggleHallDashboard = false;
         CharacterHandler.ReleaseCharacter();
