@@ -13149,7 +13149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468204673809321597, guid: a4167bfa1197040a2aac08bcc166e767, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -117.68677
+      value: -117.6868
       objectReference: {fileID: 0}
     - target: {fileID: 468204673809321597, guid: a4167bfa1197040a2aac08bcc166e767, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -50518,7 +50518,7 @@ GameObject:
   - component: {fileID: 1996529150}
   - component: {fileID: 1996529149}
   m_Layer: 0
-  m_Name: mute-btn
+  m_Name: btn-mute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
