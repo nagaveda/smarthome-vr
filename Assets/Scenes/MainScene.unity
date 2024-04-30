@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43954203, g: 0.4878223, b: 0.5684093, a: 1}
+  m_IndirectSpecularColor: {r: 0.43946788, g: 0.4878494, b: 0.5684011, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -22563,7 +22563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.74509805, g: 0.4862745, b: 0.15686275, a: 1}
-  outlineWidth: 6
+  outlineWidth: 1.02
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -22574,7 +22574,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939496802}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e727353cc1639439207f4e7d85f5f8, type: 3}
   m_Name: 
@@ -28403,7 +28403,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1252884535}
+      - m_Target: {fileID: 1385069916}
         m_TargetAssemblyTypeName: blinds, Assembly-CSharp
         m_MethodName: BlindsClose
         m_Mode: 1
@@ -31704,7 +31704,6 @@ GameObject:
   - component: {fileID: 1252884532}
   - component: {fileID: 1252884534}
   - component: {fileID: 1252884533}
-  - component: {fileID: 1252884535}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -31962,18 +31961,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5086e74cfa4843ad9b1ed0152dc7d1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1252884535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252884522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62e727353cc1639439207f4e7d85f5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1258412334
@@ -34679,7 +34666,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 984067081}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e727353cc1639439207f4e7d85f5f8, type: 3}
   m_Name: 
@@ -34698,7 +34685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.74509805, g: 0.4862745, b: 0.15686275, a: 1}
-  outlineWidth: 6
+  outlineWidth: 0.14
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -41687,7 +41674,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1252884535}
+      - m_Target: {fileID: 1385069916}
         m_TargetAssemblyTypeName: blinds, Assembly-CSharp
         m_MethodName: BlindsOpen
         m_Mode: 1
@@ -42209,7 +42196,7 @@ RectTransform:
   m_GameObject: {fileID: 1705154524}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.221, y: 1.221, z: 1.221}
+  m_LocalScale: {x: 0.6705976, y: 0.6705976, z: 0.6705976}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1680395483}
@@ -42217,7 +42204,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.55, y: 5.64}
+  m_AnchoredPosition: {x: -11.42, y: 3.46}
   m_SizeDelta: {x: 19.156, y: 19.768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1705154526
@@ -42240,7 +42227,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 75f7066069aea4773aa503dc6b1cdca5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 49562eb6d67704d97aa35baea030dfb0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -50231,7 +50218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.74509805, g: 0.4862745, b: 0.15686275, a: 1}
-  outlineWidth: 6
+  outlineWidth: 1.02
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -50242,7 +50229,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978210645}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e727353cc1639439207f4e7d85f5f8, type: 3}
   m_Name: 
@@ -53024,7 +53011,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.74509805, g: 0.4862745, b: 0.15686275, a: 1}
-  outlineWidth: 6
+  outlineWidth: 1.04
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -53035,7 +53022,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092792504}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e727353cc1639439207f4e7d85f5f8, type: 3}
   m_Name: 
