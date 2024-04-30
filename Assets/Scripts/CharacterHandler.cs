@@ -63,10 +63,20 @@ public class CharacterHandler : MonoBehaviour
     int optionCount = 1;
     bool counterFlag = false;
 
+
+    //sxb-start
+    public static GameObject BlindMenu;
+
+    static bool toggleblindMenu = false;
+
+    //sxb-end
+
+
     // Start is called before the first frame update
     void Start()
     {
         doorMenu = GameObject.Find("door-menu");   
+        BlindMenu = GameObject.Find("blind-menu");   
         objectInfo = GameObject.Find("obj-info");   
         dashboardInfo = GameObject.Find("dash-info");   
         lightMenu = GameObject.Find("light-menu");   
@@ -130,8 +140,16 @@ public class CharacterHandler : MonoBehaviour
             else if (currentHit.name.Contains("int-Refrige")) {
                 if(toggleRefrigeratorMenu == false) toggleObjectInfo = true;
             }
-            
+
             // END
+
+            //sxb-start
+            else if (currentHit.name.Contains("int-blind"))
+            {
+                blinds.selectedBlind = currentHit;
+                toggleObjectInfo = true;
+            }
+            //sxb-end
         }
 
         // Door Handling START
@@ -184,6 +202,12 @@ public class CharacterHandler : MonoBehaviour
                         toggleObjectInfo = false;
                     }
                     // END
+                    //sxb-start
+                    else if (currentHit.name.Contains("blind"))
+                    {
+                        toggleblindMenu = true;
+                    }
+                    //sxb-end
                 }
             }
            
@@ -278,7 +302,35 @@ public class CharacterHandler : MonoBehaviour
         }
         //FAN END
 
-         // Added microwave and refrigirator RXA220017   
+
+        //sxb-start
+
+        //BLIND START
+        if (toggleblindMenu)
+        {
+            BlindMenu.SetActive(true);
+            if (currentHit != null)
+            {
+
+
+
+                Vector3 menuPosition = currentHit.transform.position + new Vector3(-0.2f, 2.0f, 1f);
+                BlindMenu.transform.position = menuPosition;
+                BlindMenu.transform.LookAt(gameObject.transform);
+
+            }
+        }
+        else
+        {
+            BlindMenu.SetActive(false);
+        }
+        //BLIND END
+
+        //sxb-end
+
+
+
+        // Added microwave and refrigirator RXA220017   
 
         if (toggleMicrowaveMenu) {
             microwaveMenu.SetActive(true);
@@ -494,6 +546,7 @@ public class CharacterHandler : MonoBehaviour
         toggleBedroomDashboard = false;
         toggleDashboardInfo = false;
         toggleDoorMenu = false;
+        toggleblindMenu = false;
         toggleFanMenu = false;
         toggleHallDashboard = false;
         toggleLightMenu = false;
@@ -612,6 +665,13 @@ public class CharacterHandler : MonoBehaviour
         if(fanMenu.activeSelf){
             fanMenu.SetActive(false);
             toggleFanMenu = false;
+            
+        }
+    }
+    public static void exitBlindMenu(){
+        if(BlindMenu.activeSelf){
+            BlindMenu.SetActive(false);
+            toggleblindMenu = false;
             
         }
     }
