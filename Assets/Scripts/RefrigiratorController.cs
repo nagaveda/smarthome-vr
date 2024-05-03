@@ -12,6 +12,10 @@ public class RefrigiratorController : MonoBehaviour
     public static GameObject fridge_door;
     public static GameObject ice;
     public static bool door_fridge_flag = false;
+    public static bool ice_present = false;
+    public static GameObject ice_sound;
+
+    
    
     
     
@@ -21,7 +25,8 @@ public class RefrigiratorController : MonoBehaviour
         fridge_door = GameObject.Find("int-Refrigerator3_C2_07");
         ice = GameObject.Find("All_ice");
         ice.SetActive(false);
-        
+        ice_sound = GameObject.Find("refridgerator-audio");
+
     }
 
     // Update is called once per frame
@@ -77,8 +82,31 @@ public class RefrigiratorController : MonoBehaviour
 
 
     public void make_ice(){
+        
         Debug.Log("ice made");
-        ice.SetActive(true);
+        if(!door_fridge_flag){
+            ice.SetActive(true);
+            ice_present = true;
+            if(ice_sound != null){
+            AudioSource audio = ice_sound.GetComponent<AudioSource>();
+            if(audio != null){
+                audio.enabled = true;
+            }
+        }
+        }
+        
+    }
+
+     public void remove_ice(){
+        if(ice_sound != null){
+            AudioSource audio = ice_sound.GetComponent<AudioSource>();
+            if(audio != null){
+                audio.enabled = false;
+            }
+        }
+        Debug.Log("ice removed");
+        ice.SetActive(false);
+        ice_present = false;
         
     }
 

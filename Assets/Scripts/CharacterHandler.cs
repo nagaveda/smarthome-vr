@@ -25,6 +25,7 @@ public class CharacterHandler : MonoBehaviour
 
     GameObject hallDashboard;
     GameObject bedroomDashboard;
+    GameObject kitchenDashboard;
 
      // Added microwave and refrigirator RXA220017   
     public static GameObject microwaveMenu;
@@ -53,9 +54,10 @@ public class CharacterHandler : MonoBehaviour
     bool tvPlayTrigger = false;
 
 
-    public static bool toggleHallDashboard = false;
-    public static bool toggleBedroomDashboard = false;
+    public static bool toggleHallDashboard = true;
+    public static bool toggleBedroomDashboard = true;
 
+    public static bool toggleKitchenDashboard = true;
     public static GameObject GlobalMenu;
     bool PressedLastFrame = false;
     bool speedChanged = false;
@@ -84,6 +86,7 @@ public class CharacterHandler : MonoBehaviour
         tvMenu = GameObject.Find("tv-menu");   
         hallDashboard = GameObject.Find("hall-dashboard");
         bedroomDashboard = GameObject.Find("bed-dashboard");
+        kitchenDashboard = GameObject.Find("kitchen-dashboard");
         GlobalMenu = GameObject.Find("settings-menu");
         GlobalMenu.SetActive(false);
 
@@ -99,7 +102,7 @@ public class CharacterHandler : MonoBehaviour
         refrigerator_pos = GameObject.Find("int-Refrigerator3_C2").transform.position;
         refrigeratorMenu.SetActive(false);
 
-
+        
         // END
 
     }
@@ -110,11 +113,18 @@ public class CharacterHandler : MonoBehaviour
         performRaycast();
         handleAllFans();
         handleSettings();
-
+        DashboardController.updateKitchenDashboard();
         if(isHighlighted && currentHit != null){
             if(currentHit.name.Contains("int-door")){
-                DoorsHandler.selectedDoor = currentHit;
-                toggleDoorMenu = true;
+                Vector3 hitPosition = currentHit.transform.position;
+                Vector3 cameraPosition = Camera.main.transform.position;
+                float distance = Vector3.Distance(hitPosition, cameraPosition);
+                Debug.Log("DISTANCE"+distance);
+                if(distance <= 2.4f){
+                    DoorsHandler.selectedDoor = currentHit;
+                    toggleDoorMenu = true;
+                }
+                
             }
             else if(currentHit.name.Contains("int-light")){
                 LightsController.selectedLight = currentHit;
@@ -130,7 +140,7 @@ public class CharacterHandler : MonoBehaviour
             else if(currentHit.name.Contains("int-tv") || currentHit.name.Contains("int-screen")){
                 toggleTvListener = true;
             }// Added microwave and refrigirator RXA220017   
-            else if(currentHit.name.Contains("int-microwave")) {
+            else if(currentHit.name.Contains("int-microwave") && MicrowaveController.food_present) {
                 MicrowaveController.selectedMicrowave = currentHit;
                 if(!microwaveMenu.activeSelf) toggleObjectInfo = true;
             }
@@ -160,12 +170,17 @@ public class CharacterHandler : MonoBehaviour
                 doorMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 doorMenu.transform.LookAt(gameObject.transform);
 
-                if (Input.GetButton("js10") && !doorTrigger)
+                if (Input.GetButton("js2") && !doorTrigger)
                 {
                     doorTrigger = true;
+                    //Delay for waiting for had animation while opening door
+                     float timeElapsed = 5.0f;
+                    while(timeElapsed > 0){
+                        timeElapsed -= Time.deltaTime;
+                    }
                     DoorsHandler.openCloseDoor();
                 }
-                else if (!Input.GetButton("js10") && doorTrigger)
+                else if (!Input.GetButton("js2") && doorTrigger)
                 {
                     doorTrigger = false;
                 }
@@ -186,7 +201,7 @@ public class CharacterHandler : MonoBehaviour
                 objectInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 objectInfo.transform.LookAt(gameObject.transform);
 
-                if (Input.GetButton("js10"))
+                if (Input.GetButton("js2"))
                 {
                     if(currentHit.name.Contains("light")){
                         toggleLightMenu = true;
@@ -223,12 +238,12 @@ public class CharacterHandler : MonoBehaviour
         if(toggleTvListener){
             if(currentHit!=null){
                 if(currentHit.name.Contains("tv-hall") || currentHit.name.Contains("screen-hall")){
-                    if (Input.GetButton("js10") && !tvPlayTrigger)
+                    if (Input.GetButton("js2") && !tvPlayTrigger)
                     {
                         tvPlayTrigger = true;
                         TvController.HandleTvPower();
                     }
-                    else if (!Input.GetButton("js10") && tvPlayTrigger)
+                    else if (!Input.GetButton("js2") && tvPlayTrigger)
                     {
                         tvPlayTrigger = false;
                     }  
@@ -246,7 +261,7 @@ public class CharacterHandler : MonoBehaviour
                 chicken_menu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 chicken_menu.transform.LookAt(gameObject.transform);
 
-                if (Input.GetButton("js10") && change_food_pos == true) {
+                if (Input.GetButton("js2") && change_food_pos == true) {
                     microwavedoor.transform.Rotate(0 , 90 , 0);
                     MicrowaveController.microdoorflag = true;
                     currentHit.transform.position = currentHit.transform.position + new Vector3(0.5f, 0.53f, 0.3f);
@@ -378,7 +393,7 @@ public class CharacterHandler : MonoBehaviour
                 dashboardInfo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.5f + Vector3.up * 0.2f;
                 dashboardInfo.transform.LookAt(gameObject.transform);
 
-                if (Input.GetButton("js10"))
+                if (Input.GetButton("js2"))
                 {
                     if(currentHit.name.Contains("int-dash-hall")){
                         toggleHallDashboard = true;
@@ -387,8 +402,8 @@ public class CharacterHandler : MonoBehaviour
                         toggleBedroomDashboard = true;
                     }
                     else if(currentHit.name.Contains("int-dash-kitchen")) {
-                        
-                        RestrictCharacter();
+                        toggleKitchenDashboard = true;
+                        // RestrictCharacter();
                     }
                     
                 }
@@ -403,36 +418,51 @@ public class CharacterHandler : MonoBehaviour
         if(toggleHallDashboard){
             DashboardController.updateHallDashboard();
             hallDashboard.SetActive(true);
-            if(currentHit!=null){
+            // if(currentHit!=null){
                
-                Vector3 dashboardPosition = currentHit.transform.position + new Vector3(0,-0.6f, -1f);
-                hallDashboard.transform.position = dashboardPosition;
-                hallDashboard.transform.LookAt(gameObject.transform);
+            //     Vector3 dashboardPosition = currentHit.transform.position + new Vector3(0,-0.6f, -1f);
+            //     hallDashboard.transform.position = dashboardPosition;
+            //     hallDashboard.transform.LookAt(gameObject.transform);
 
-            }
+            // }
         }
-        else{
-            hallDashboard.SetActive(false);
-        }
+        // else{
+        //     hallDashboard.SetActive(false);
+        // }
         //Hall DASH END
 
         //Bedroom DASH START
         if(toggleBedroomDashboard){
             DashboardController.updateBedroomDashboard();
             bedroomDashboard.SetActive(true);
-            if(currentHit!=null){
+            // if(currentHit!=null){
                 
-                Vector3 dashboardPosition = currentHit.transform.position + new Vector3(0.3f,-0.8f, 0.3f);
-                bedroomDashboard.transform.position = dashboardPosition;
-                bedroomDashboard.transform.LookAt(gameObject.transform);
+            //     Vector3 dashboardPosition = currentHit.transform.position + new Vector3(0.3f,-0.8f, 0.3f);
+            //     bedroomDashboard.transform.position = dashboardPosition;
+            //     bedroomDashboard.transform.LookAt(gameObject.transform);
                 
                 
-            }
+            // }
         }
-        else{
-            bedroomDashboard.SetActive(false);
-        }
+        // else{
+        //     bedroomDashboard.SetActive(false);
+        // }
         //Bedroom DASH END
+
+        // Kitchen DASH START
+        if (toggleKitchenDashboard) {
+            DashboardController.updateKitchenDashboard();
+            kitchenDashboard.SetActive(true);
+            // if(currentHit != null) {
+            //     Vector3 dashboardPosition = currentHit.transform.position + new Vector3(0.3f,-0.8f, 0.3f);
+            //         kitchenDashboard.transform.position = dashboardPosition;
+            //         kitchenDashboard.transform.LookAt(gameObject.transform);
+            // }
+
+        }
+        // else {
+        //     kitchenDashboard.SetActive(false);
+        // }
 
     }
 
@@ -445,11 +475,11 @@ public class CharacterHandler : MonoBehaviour
                 optionCount++;
                 counterFlag = false;
         }
-         if(GlobalMenu.activeSelf && Input.GetButton("js11") && !PressedLastFrame){
+         if(GlobalMenu.activeSelf && Input.GetButton("js10") && !PressedLastFrame){
            counterFlag = true;
            PressedLastFrame = true;
         }
-        else if (!Input.GetButton("js11"))
+        else if (!Input.GetButton("js10"))
         {
             PressedLastFrame = false;
         }
@@ -462,7 +492,7 @@ public class CharacterHandler : MonoBehaviour
                 //resume
                 UnSelectOption("Quit");
                 SelectOption("Resume");
-                if(Input.GetButton("js5")){
+                if(Input.GetButton("js3")){
                     Debug.Log("Resume");
                     Resume();
                 }
@@ -472,7 +502,7 @@ public class CharacterHandler : MonoBehaviour
                 UnSelectOption("Resume");
                 SelectOption("Speed");
                 Debug.Log("SPEED: "+CharacterMovement.speed);
-                if(Input.GetButton("js5") && !speedChanged){
+                if(Input.GetButton("js3") && !speedChanged){
                     if(CharacterMovement.speed == 5f){
                         CharacterMovement.speed = 10f;
                     }
@@ -485,7 +515,7 @@ public class CharacterHandler : MonoBehaviour
                     speedChanged = true;
                     
                 }
-                else if(!Input.GetButton("js5")){
+                else if(!Input.GetButton("js3")){
                     speedChanged = false;         
                 }
             }
@@ -493,7 +523,7 @@ public class CharacterHandler : MonoBehaviour
                 //raycast length
                 UnSelectOption("Speed");
                 SelectOption("Length");
-                if(Input.GetButton("js5") && !lengthChanged){
+                if(Input.GetButton("js3") && !lengthChanged){
                     if(raycastLength == 1f){
                         raycastLength = 10f;
                     }
@@ -505,7 +535,7 @@ public class CharacterHandler : MonoBehaviour
                     }
                     lengthChanged = true;
                 }
-                else if(!Input.GetButton("js5")){
+                else if(!Input.GetButton("js3")){
                     lengthChanged = false;         
                 }
             }
@@ -513,7 +543,7 @@ public class CharacterHandler : MonoBehaviour
                 //quit
                 UnSelectOption("Length");
                 SelectOption("Quit");
-                if(Input.GetButton("js5")){
+                if(Input.GetButton("js3")){
                     Debug.Log("Quit");
                     quit();
                 }
@@ -543,12 +573,12 @@ public class CharacterHandler : MonoBehaviour
     }
 
     public void clearAllAndInitializeGlobalMenu(){
-        toggleBedroomDashboard = false;
+        // toggleBedroomDashboard = false;
         toggleDashboardInfo = false;
         toggleDoorMenu = false;
         toggleblindMenu = false;
         toggleFanMenu = false;
-        toggleHallDashboard = false;
+        // toggleHallDashboard = false;
         toggleLightMenu = false;
         toggleObjectInfo = false;
         togglechickenCookMenu = false;
@@ -785,5 +815,19 @@ public class CharacterHandler : MonoBehaviour
             }
         }
     }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     Debug.Log("Trigger Enter: " + other.gameObject.name);
+
+    //     if (other.gameObject.name.Contains("door"))
+    //     {
+    //         if(currentHit != null && currentHit.name.Contains("int-door")){
+    //             DoorsHandler.selectedDoor = currentHit;
+    //             DoorsHandler.openCloseDoor();
+    //             Debug.Log("Collided with door!");
+    //         }
+            
+    //     }
+    // }
 
 }

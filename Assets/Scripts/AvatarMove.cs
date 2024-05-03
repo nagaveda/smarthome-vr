@@ -51,7 +51,7 @@ public class AvatarMove : MonoBehaviour
         }
 
 
-        if (Input.GetButton("js10") && (DoorsHandler.isDoorOpen))
+        if (Input.GetButton("js2") && (DoorsHandler.isDoorOpen))
         {
             animator.SetBool("Isopening", true);
             StartCoroutine(ResetIsOpening());
