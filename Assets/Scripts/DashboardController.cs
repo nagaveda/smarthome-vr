@@ -109,8 +109,79 @@ public class DashboardController : MonoBehaviour
     }
 
     public static void updateKitchenDashboard() {
+        GameObject m_foodstatus = GameObject.Find("kitchen-microwave-food-status");
+        GameObject m_activestatus = GameObject.Find("kitchen-microwave-status");
         
+       
+       if (m_foodstatus != null && m_activestatus != null) {
+        Debug.Log("UPDATE started-1");
+
+         TextMeshProUGUI m_foodstatusText = m_foodstatus.GetComponent<TextMeshProUGUI>();
+         TextMeshProUGUI m_activestatusText = m_activestatus.GetComponent<TextMeshProUGUI>();
+
+         if (m_foodstatusText != null && m_activestatusText != null) {
+
+            if (MicrowaveController.food_present) {
+                m_foodstatusText.text = "YES";
+            }
+            else {
+                m_foodstatusText.text = "NO";
+            }
+
+
+             if (MicrowaveController.start_flag) {
+                m_activestatusText.text = "ON";
+            }
+            else {
+                m_activestatusText.text = "OFF";
+            }
+
+         }
+       }
+
+
+       GameObject r_icestatus = GameObject.Find("kitchen-refrigerator-ice-status");
+       GameObject r_temperaturestatus = GameObject.Find("kitchen-refrigerator-temperature-status");
+       GameObject r_modestatus = GameObject.Find("kitchen-refrigerator-mode-status");
+
+
+       if (r_icestatus != null && r_temperaturestatus != null && r_modestatus != null) {
+        Debug.Log("UPDATE started-2");
+
+            TextMeshProUGUI r_icestatusText =r_icestatus.GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI r_temperaturestatusText = r_temperaturestatus.GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI r_modestatusText = r_modestatus.GetComponent<TextMeshProUGUI>();
+
+             if (r_icestatusText != null && r_temperaturestatusText != null && r_modestatusText != null) {
+                
+                Debug.Log("UPDATE started-3");
+
+                 if (RefrigiratorController.ice_present) {
+                    r_icestatusText.text = "YES";
+                }
+                else {
+                    r_icestatusText.text = "NO";
+                }
+
+            r_temperaturestatusText.text = Mathf.CeilToInt(RefrigiratorController.cur_temperature).ToString();
+
+            if(RefrigiratorController.cur_temperature == 37f) {
+                r_modestatusText.text = "NORMAL";
+            }
+            else if(RefrigiratorController.cur_temperature == 45f) {
+                r_modestatusText.text = "HIGH";
+            }
+            else if(RefrigiratorController.cur_temperature == 10f) {
+                r_modestatusText.text = "LOW";
+            }
+
+            
+             }
+        }
+       
+  
     }
+
 
     public static void closeHallDashboard(){
         CharacterHandler.toggleHallDashboard = false;
@@ -119,5 +190,10 @@ public class DashboardController : MonoBehaviour
     public static void closeBedroomDashboard(){
         CharacterHandler.toggleBedroomDashboard = false;
         CharacterHandler.ReleaseCharacter();
+    }
+    public static void closekitchenDashboard() {
+        CharacterHandler.toggleKitchenDashboard = false;
+        CharacterHandler.ReleaseCharacter();
+
     }
 }

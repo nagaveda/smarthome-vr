@@ -25,10 +25,13 @@ public class DoorsHandler : MonoBehaviour
         selectedDoor.transform.Rotate(0, 90, 0);
         if(selectedDoor != null){
             AudioSource[] sounds = selectedDoor.GetComponents<AudioSource>();
-            AudioSource openSound = sounds[0];
-            openSound.enabled = true;
-            AudioSource closeSound = sounds[1];
-            closeSound.enabled = false;
+            if(sounds.Length >= 1){
+                AudioSource openSound = sounds[0];
+                openSound.enabled = true;
+                AudioSource closeSound = sounds[1];
+                closeSound.enabled = false;
+            }
+            
         }
     }
     public static void closeDoor(){
@@ -37,10 +40,13 @@ public class DoorsHandler : MonoBehaviour
         isDoorOpen = false;
         if(selectedDoor != null){
             AudioSource[] sounds = selectedDoor.GetComponents<AudioSource>();
-            AudioSource openSound = sounds[0];
-            openSound.enabled = false;
-            AudioSource closeSound = sounds[1];
-            closeSound.enabled = true;
+            if(sounds.Length >= 1){
+                AudioSource openSound = sounds[0];
+                openSound.enabled = false;
+                AudioSource closeSound = sounds[1];
+                closeSound.enabled = true;
+            }
+            
         }
     }
 

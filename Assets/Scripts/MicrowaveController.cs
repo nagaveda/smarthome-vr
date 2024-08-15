@@ -14,7 +14,7 @@ public class MicrowaveController : MonoBehaviour
     public static bool start_flag = false;
     public static bool food_present = false;
     public static GameObject food_item;
-    public static float rotationSpeed = 2f;
+    public static float rotationSpeed = 20f;
     public static float time_control = 1f;
     public static bool microdoorflag = false;
     // public static Button increase_button;
@@ -72,8 +72,21 @@ public class MicrowaveController : MonoBehaviour
             yield return null;
         }
         start_flag = false;
+        food_present = false;
+         // After Cooked, sound for oven
+        AudioSource audio = selectedMicrowave.GetComponent<AudioSource>();
+        if(audio != null){
+            audio.enabled = true;
+        }
+
         CharacterHandler.chicken_object.transform.position = CharacterHandler.initial_chicken_position;
+       
         CharacterHandler.change_food_pos = true;
+        
+        // if(audio != null){
+        //     audio.enabled = false;
+        // }
+
     }
 
     public void btn_15sec(){
@@ -143,6 +156,11 @@ public class MicrowaveController : MonoBehaviour
 
     public void start() {
         Debug.Log("cooking started");
+        AudioSource audio = selectedMicrowave.GetComponent<AudioSource>();
+        if(audio != null){
+            audio.enabled = false;
+        }
+        
         if (microdoorflag) {
             CharacterHandler.microwavedoor.transform.Rotate(0 , -90 , 0);
             microdoorflag = false;
@@ -156,7 +174,7 @@ public class MicrowaveController : MonoBehaviour
            
 
         }
-
+       
         
         
     }

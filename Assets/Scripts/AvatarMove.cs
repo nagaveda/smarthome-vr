@@ -51,12 +51,21 @@ public class AvatarMove : MonoBehaviour
         }
 
 
-        if (Input.GetButton("js10") && (DoorsHandler.isDoorOpen))
+        if (Input.GetButton("js2") && (DoorsHandler.isDoorOpen))
         {
             animator.SetBool("Isopening", true);
             StartCoroutine(ResetIsOpening());
         }
-        
+
+        if (TvController.isTvOn)
+        {
+            animator.SetBool("Isdancing", true);
+        }
+        else if (!TvController.isTvOn)
+        {
+            animator.SetBool("Isdancing", false);
+        }
+       
 
     }
     IEnumerator ResetIsOpening()
@@ -65,5 +74,7 @@ public class AvatarMove : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         // After 1.5 seconds, set Isopening parameter back to false
         animator.SetBool("Isopening", false);
-    }
+
+    }  
+  
 }
